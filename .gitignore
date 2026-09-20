@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# NeoForge / ModDevGradle
+run/
+runs/
+src/generated/resources/.cache/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.eclipse/
+.settings/
+.classpath
+.project
+bin/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code (local-only)
+.claude/settings.local.json

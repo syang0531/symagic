@@ -1,0 +1,83 @@
+# SY Magic
+
+**지팡이 하나에 마법 하나.** 나무막대 2개와 바닐라 재료 1개로 지팡이를 만들고, 우클릭하면 그 마법이 나간다.
+
+Minecraft **26.2** / **NeoForge 26.2** (Java 25) 모드. Stan Yang의 모드 가족(`sy…`) 네 번째로,
+[SY Alchemy](https://www.curseforge.com/minecraft/mc-mods/syalchemy)·
+[SY Village](https://www.curseforge.com/minecraft/mc-mods/syvillage)·
+SY Dungeon과 함께 플레이할 수 있지만 **어느 것에도 의존하지 않는다**. 재료는 전부 바닐라다.
+
+전체 설계는 [docs/기획.md](docs/기획.md).
+
+## 무엇이 나오나
+
+지팡이 10종. 재료를 보면 마법을 짐작할 수 있게 골랐다.
+
+| 지팡이 | 재료 | 마법 |
+|---|---|---|
+| 불씨 | 블레이즈 막대 | 작은 화염구, 발화 |
+| 서리 | 딱딱한 얼음 | 빠른 화살 + 둔화 |
+| 등불 | 자수정 조각 | 암시 60초 |
+| 활강 | 팬텀 막 | 완강 낙하 45초 |
+| 도약 | 슬라임볼 | 점프 강화 II 45초, 착지 무피해 |
+| 점멸 | 엔더 진주 | 바라보는 지점으로 순간이동 |
+| 조류 | 프리즈머린 조각 | 수중 호흡 + 돌고래의 우아함 60초 |
+| 치유 | 가스트 눈물 | 체력 3칸 회복 |
+| 돌풍 | 브리즈 막대 | 주변을 밀어내는 돌풍 (피해 없음) |
+| 반향 | 에코 조각 | 주변 생물이 20초간 벽 너머로 발광 |
+
+재료마다 사는 곳이 다르므로 **어디를 다녀왔느냐가 무엇을 쓸 수 있느냐를 정한다.**
+자수정은 정동, 프리즈머린은 바다 유적, 브리즈 막대는 시험 방, 에코 조각은 고대 도시.
+
+제작은 작업대에서, 대각선 배치다.
+
+```
+·  ·  재료
+·  막대  ·
+막대  ·  ·
+```
+
+## 왜 이렇게 단순한가
+
+마법은 **검의 대체재가 아니라 보완재**여야 한다. 직접 피해를 주는 지팡이는 2개뿐이고
+둘 다 같은 시기의 검보다 약하다. 나머지 8개는 이동·시야·안전을 산다.
+
+그리고 **바닐라가 하던 일을 빼앗지 않는다.** 전용 기계도, 전용 재화도, 인챈트북 제작도 없다.
+지팡이 인챈트 3종(마력·신속 시전·마력 확산)은 **마법부여대·사서 주민·던전 상자**에서
+날카로움과 똑같은 경로로 나온다. 이 모드는 그것을 만드는 방법을 제공하지 않는다.
+
+등록하는 것은 아이템 10개와 인챈트 3개가 전부다. 블록도 GUI도 패킷도 없다.
+
+## 요구 사항
+
+- **JDK 25** — 없으면 Gradle(foojay 툴체인)이 `~/.gradle/jdks`에 자동으로 받는다.
+- Gradle은 별도 설치 불필요 — 포함된 Gradle Wrapper(`gradlew`)가 자동 처리.
+
+## 빌드 & 실행
+
+```powershell
+.\gradlew.bat runData      # 모델·영문 lang·레시피·태그 생성 (아이템 추가 시)
+.\gradlew.bat runClient    # 개발용 클라이언트
+.\gradlew.bat compileJava  # 컴파일만
+.\gradlew.bat build        # 배포용 jar (build/libs/)
+```
+
+플레이스홀더 텍스처는 `tools\gen_textures.ps1`이 만든다(지팡이 실루엣 하나를 재료 색으로 틴트).
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\gen_textures.ps1
+```
+
+## 구조
+
+```
+src/main/java/com/syang/symagic/
+├── SyMagic.java                 메인 (@Mod)
+├── registry/                    ModItems, ModCreativeTabs, ModEnchantments
+├── world/item/ModStaff.java     ★ 표 하나 = 모드 전체
+├── world/spell/SpellEffects.java  마법 10종의 동작
+└── datagen/                     모델·en_us·레시피·아이템 태그
+```
+
+지팡이를 추가하려면 `ModStaff`에 한 줄, `SpellEffects`에 메서드 하나, 영문 설명 한 줄,
+텍스처 색 하나. 그리고 `runData`.

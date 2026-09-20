@@ -1,0 +1,31 @@
+{
+  "itemGroup.symagic.main": "SY 마법",
+
+  "item.symagic.ember_staff": "불씨 지팡이",
+  "item.symagic.frost_staff": "서리 지팡이",
+  "item.symagic.lantern_staff": "등불 지팡이",
+  "item.symagic.drift_staff": "활강 지팡이",
+  "item.symagic.bounding_staff": "도약 지팡이",
+  "item.symagic.blink_staff": "점멸 지팡이",
+  "item.symagic.tide_staff": "조류 지팡이",
+  "item.symagic.healing_staff": "치유 지팡이",
+  "item.symagic.gust_staff": "돌풍 지팡이",
+  "item.symagic.echo_staff": "반향 지팡이",
+
+  "tooltip.symagic.ember_staff.spell": "작은 화염구를 던져 대상에 불을 붙인다",
+  "tooltip.symagic.frost_staff.spell": "빠른 화살을 쏘아 대상을 둔화시킨다",
+  "tooltip.symagic.lantern_staff.spell": "60초 동안 암시",
+  "tooltip.symagic.drift_staff.spell": "45초 동안 완강 낙하",
+  "tooltip.symagic.bounding_staff.spell": "45초 동안 점프 강화 II, 착지 피해 없음",
+  "tooltip.symagic.blink_staff.spell": "바라보는 블록으로 순간 이동",
+  "tooltip.symagic.tide_staff.spell": "60초 동안 수중 호흡 + 돌고래의 우아함",
+  "tooltip.symagic.healing_staff.spell": "체력 3칸 회복",
+  "tooltip.symagic.gust_staff.spell": "주변의 모든 것을 밀어내는 돌풍",
+  "tooltip.symagic.echo_staff.spell": "20초 동안 주변 생물이 벽 너머로 빛난다",
+
+  "tooltip.symagic.staff.cooldown": "재사용 대기시간: %s초",
+
+  "enchantment.symagic.spell_power": "마력",
+  "enchantment.symagic.alacrity": "신속 시전",
+  "enchantment.symagic.arcane_reach": "마력 확산"
+}

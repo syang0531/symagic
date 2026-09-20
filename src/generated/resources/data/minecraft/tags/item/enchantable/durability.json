@@ -1,0 +1,14 @@
+{
+  "values": [
+    "symagic:ember_staff",
+    "symagic:frost_staff",
+    "symagic:lantern_staff",
+    "symagic:drift_staff",
+    "symagic:bounding_staff",
+    "symagic:blink_staff",
+    "symagic:tide_staff",
+    "symagic:healing_staff",
+    "symagic:gust_staff",
+    "symagic:echo_staff"
+  ]
+}

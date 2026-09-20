@@ -1,0 +1,10 @@
+{
+  "description": { "translate": "enchantment.symagic.arcane_reach" },
+  "supported_items": "#symagic:enchantable/staff",
+  "weight": 2,
+  "max_level": 3,
+  "min_cost": { "base": 12, "per_level_above_first": 20 },
+  "max_cost": { "base": 32, "per_level_above_first": 20 },
+  "anvil_cost": 4,
+  "slots": [ "mainhand" ]
+}
