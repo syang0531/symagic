@@ -4,7 +4,7 @@
 Output: docs/curseforge/logo.png and src/main/resources/logo.png (512x512; CurseForge wants
 at least 400x400). Run: python tools/gen_logo.py
 
-Drawn from primitives, like the SY Dungeon and SY Village logos. The picture is the mod in
+Drawn from primitives. The picture is the mod in
 one look: a hooked staff on the diagonal with a lit orb in its crook - the same silhouette
 the item textures use, so the icon and the item in your hand read as the same object.
 

@@ -17,8 +17,7 @@ import org.slf4j.LoggerFactory;
  * recipe type — every material is vanilla, and the three staff enchantments are ordinary
  * enchantments you find at an enchanting table, in a librarian's trades or in chest loot.
  *
- * <p>Sibling of {@code syalchemy}, {@code syvillage} and {@code sydungeon} on the same
- * Minecraft 26.2 / NeoForge 26.2 (Java 25) stack. It deliberately depends on none of them.
+ * <p>Minecraft 26.2 / NeoForge 26.2 (Java 25). Depends on no other mod.
  */
 @Mod(SyMagic.MOD_ID)
 public class SyMagic {

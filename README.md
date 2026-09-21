@@ -2,10 +2,8 @@
 
 **지팡이 하나에 마법 하나.** 나무막대 2개와 바닐라 재료 1개로 지팡이를 만들고, 우클릭하면 그 마법이 나간다.
 
-Minecraft **26.2** / **NeoForge 26.2** (Java 25) 모드. Stan Yang의 모드 가족(`sy…`) 네 번째로,
-[SY Alchemy](https://www.curseforge.com/minecraft/mc-mods/syalchemy)·
-[SY Village](https://www.curseforge.com/minecraft/mc-mods/syvillage)·
-SY Dungeon과 함께 플레이할 수 있지만 **어느 것에도 의존하지 않는다**. 재료는 전부 바닐라다.
+Minecraft **26.2** / **NeoForge 26.2** (Java 25) 모드. **다른 모드에 의존하지 않는다** —
+재료는 전부 바닐라이고, 전용 서버에서도 동작한다.
 
 전체 설계는 [docs/기획.md](docs/기획.md).
 
