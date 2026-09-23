@@ -92,7 +92,6 @@ Minecraft **26.2** / **NeoForge 26.2** (Java 25) 모드. **다른 모드에 의�
 
 ```powershell
 python tools\gen_textures.py   # 지팡이 1 + 마법책 11 (책 표지 = 재료 색, 문양 = 원소 색)
-python tools\gen_logo.py       # 512x512 로고
 ```
 
 ## 구조
