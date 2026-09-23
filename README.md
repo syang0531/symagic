@@ -6,6 +6,8 @@
 Minecraft **26.2** / **NeoForge 26.2** (Java 25) 모드. **다른 모드에 의존하지 않는다** —
 재료는 전부 바닐라이고, 전용 서버에서도 동작한다.
 
+[CurseForge](https://www.curseforge.com/minecraft/mc-mods/symagic) · MIT
+
 전체 설계는 [docs/기획.md](docs/기획.md).
 
 ## 지팡이
@@ -108,3 +110,7 @@ src/main/java/com/syang/symagic/
 
 마법을 추가하려면 `Spell`에 한 줄, `SpellEffects`에 메서드 하나, 영문 설명 한 줄 + `ko_kr.json`,
 `tools/gen_textures.py`에 색 하나. 그리고 `runData`. **지팡이는 늘지 않는다.**
+
+## 라이선스
+
+MIT — [LICENSE](LICENSE).
