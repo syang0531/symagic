@@ -19,11 +19,13 @@ import net.minecraft.world.item.crafting.Recipe;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Eleven ordinary crafting recipes, every ingredient vanilla:
+ * Twelve ordinary crafting recipes, every ingredient vanilla:
  *
  * <ul>
- *   <li><b>The staff</b> — two sticks on a diagonal shaft with a gold ingot as the head. Gold is the
- *       most enchantable vanilla material, and the staff is the thing you enchant.</li>
+ *   <li><b>The staff</b> — two sticks on a diagonal shaft; at its head two gold ingots cradle an
+ *       amethyst shard in the corner, a gold setting holding a gem, which is what the texture shows.
+ *       Gold is the most enchantable vanilla material, and the staff is the thing you enchant.
+ *       Sticks and one gold ingot on that diagonal are the vanilla golden spear.</li>
  *   <li><b>A spellbook</b> — a book and the spell's material, shapeless. The material is still the
  *       spell, so the roster is still a map of where you have been.</li>
  * </ul>
@@ -36,8 +38,8 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ModRecipeProvider extends RecipeProvider {
 
-    /** 'G' = gold ingot, 'S' = stick. Reads as a staff rather than a sword. */
-    private static final String[] STAFF = {"  G", " S ", "S  "};
+    /** 'A' = amethyst shard, 'G' = gold ingot, 'S' = stick. Checked against every vanilla shaped recipe. */
+    private static final String[] STAFF = {" GA", " SG", "S  "};
 
     protected ModRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
         super(registries, output);
@@ -49,7 +51,8 @@ public class ModRecipeProvider extends RecipeProvider {
         for (String row : STAFF) {
             staff.pattern(row);
         }
-        staff.define('G', Items.GOLD_INGOT)
+        staff.define('A', Items.AMETHYST_SHARD)
+                .define('G', Items.GOLD_INGOT)
                 .define('S', Items.STICK)
                 .unlockedBy("has_gold_ingot", has(Items.GOLD_INGOT))
                 .save(this.output, key("staff"));

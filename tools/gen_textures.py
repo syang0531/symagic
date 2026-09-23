@@ -4,9 +4,9 @@
 Output: src/main/resources/assets/symagic/textures/item/{staff,<spell>_spellbook}.png
 Run: python tools/gen_textures.py
 
-These are placeholders drawn pixel by pixel. The staff keeps the hooked silhouette the 0.1.0
-staffs had, now with a gold crook (it is crafted from gold) cradling a violet gem - the same
-picture as the logo. A spellbook is one book shape, its cover tinted with the colour of the
+Drawn pixel by pixel. The staff follows vanilla's tool conventions (see STAFF below): a gold
+setting holding an amethyst, on a wooden shaft that leans the way every vanilla tool does. A
+spellbook is one book shape, its cover tinted with the colour of the
 material that makes it (blaze rod = ember orange, packed ice = pale blue, ...) and marked with
 its element's colour, so the ten books read apart in a hotbar while staying obviously one family.
 
@@ -46,9 +46,6 @@ ELEMENTS = {
     'shadow': (196, 110, 255),
 }
 
-WOOD = {'hi': (160, 112, 64), 'mid': (122, 84, 48), 'sh': (92, 62, 36), 'dk': (64, 42, 24)}
-GOLD = {'hi': (252, 238, 120), 'mid': (234, 190, 60), 'sh': (178, 132, 30), 'dk': (120, 84, 20)}
-GEM = {'hi': (246, 228, 255), 'mid': (176, 110, 232), 'sh': (120, 70, 190)}
 PAGE = {'mid': (239, 229, 204), 'sh': (206, 192, 160)}
 
 
@@ -73,31 +70,59 @@ def put(img, x, y, colour):
         img.putpixel((x, y), colour + (255,))
 
 
-def staff():
-    """A shepherd's crook: gold hook at the top-left, wooden shaft running down to the bottom-right."""
+# The staff, placed pixel by pixel in vanilla's conventions: handle at the bottom-left, head at the
+# top-right (every vanilla tool and weapon leans that way), and a shaft built like the vanilla stick -
+# a three-pixel band whose upper-left edge is a dark mid tone and whose lower-right edge is the
+# darkest tone, so it reads against any background. The head is a gold setting holding an amethyst,
+# which is what the staff is crafted from.
+#
+# STAFF below was drawn by hand in an image editor and transcribed here pixel for pixel (every colour
+# is one of STAFF_PALETTE), so the script reproduces it exactly. The same picture is used in the
+# inventory and in the hand. To change it: edit the PNG, then transcribe it back into STAFF - or
+# edit STAFF and rerun.
+STAFF_PALETTE = {
+    # wood
+    'a': (78, 57, 23),     # upper-left edge
+    'c': (146, 108, 45),   # core, light
+    'd': (110, 81, 33),    # core, mid
+    'b': (38, 27, 11),     # lower-right edge, darkest
+    # gold
+    'O': (92, 62, 12),     # outline
+    'S': (196, 136, 22),   # shadow
+    'G': (236, 190, 56),   # mid
+    'L': (254, 244, 138),  # light
+    # amethyst
+    'u': (104, 56, 170),   # shadow
+    'V': (174, 108, 232),  # mid
+    'v': (240, 218, 255),  # glint
+}
+STAFF = [
+    "................",
+    "...........OOO..",
+    "..........OLLGO.",
+    ".........OLvVVSO",
+    ".........OLVVuSO",
+    ".........OGVuuSO",
+    ".........cOSSSO.",
+    "........aSbOOO..",
+    ".......adb......",
+    "......acb.......",
+    ".....adb........",
+    "....acb.........",
+    "...adb..........",
+    "..acb...........",
+    ".adb............",
+    ".bb.............",
+]
+
+
+def staff(rows):
     img = canvas()
-    # Gold crook, open at the bottom-right where the shaft joins it.
-    for x, y, shade in ((4, 1, 'hi'), (5, 1, 'hi'), (6, 1, 'mid'),
-                        (3, 2, 'hi'), (7, 2, 'mid'),
-                        (3, 3, 'mid'), (7, 3, 'sh'),
-                        (3, 4, 'mid'), (7, 4, 'sh'),
-                        (4, 5, 'sh'), (5, 5, 'dk')):
-        put(img, x, y, GOLD[shade])
-    # The gem sitting in the crook.
-    for x, y, shade in ((5, 2, 'hi'), (4, 3, 'mid'), (5, 3, 'mid'), (6, 2, 'mid'),
-                        (6, 3, 'sh'), (4, 4, 'sh'), (5, 4, 'sh'), (6, 4, 'sh')):
-        put(img, x, y, GEM[shade])
-    # Shaft: two pixels wide, lit on its upper-left edge.
-    left = ((7, 5), (8, 6), (8, 7), (9, 8), (9, 9), (10, 10), (10, 11), (11, 12), (11, 13), (12, 14))
-    right = ((8, 5), (9, 6), (9, 7), (10, 8), (10, 9), (11, 10), (11, 11), (12, 12), (12, 13), (13, 14))
-    for x, y in left:
-        put(img, x, y, WOOD['hi'])
-    for x, y in right:
-        put(img, x, y, WOOD['sh'])
-    put(img, 12, 14, WOOD['mid'])
-    # Rounded foot.
-    put(img, 12, 15, WOOD['sh'])
-    put(img, 13, 15, WOOD['dk'])
+    for y, row in enumerate(rows):
+        assert len(row) == 16, (y, len(row))
+        for x, ch in enumerate(row):
+            if ch != '.':
+                put(img, x, y, STAFF_PALETTE[ch])
     return img
 
 
@@ -146,7 +171,7 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     written = []
     path = os.path.join(OUT, 'staff.png')
-    staff().save(path)
+    staff(STAFF).save(path)
     written.append(path)
     for spell, (colour, element) in SPELLS.items():
         path = os.path.join(OUT, spell + '_spellbook.png')
