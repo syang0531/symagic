@@ -12,7 +12,9 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 import java.util.function.Supplier;
 
@@ -30,6 +32,8 @@ import java.util.function.Supplier;
  *
  * <p>A spell is cast from the one {@link StaffItem}, which holds up to {@link StaffSpells#CAPACITY}
  * spellbooks. Each spell has its own cooldown, so switching spells never waits on the last cast.
+ * Most spells go off on the click; a spell with {@code useTicks > 0} is held like a drawn bow
+ * and goes off when the hold completes (Recall, so it is a way home rather than an escape button).
  *
  * <p>Balance: only two spells deal direct damage, and both are weaker than a melee weapon of the
  * same era. The rest buy mobility, vision or safety — magic is meant to complement a sword, not
@@ -56,7 +60,14 @@ public enum Spell implements StringRepresentable {
     /** Breeze rod — a burst of wind that throws everything around you away. Control, not damage. */
     GUST("gust", "Gust", () -> Items.BREEZE_ROD, Element.STORM, 100, SpellEffects::gust),
     /** Echo shard — every living thing nearby glows through the walls for a while. */
-    ECHO("echo", "Echo", () -> Items.ECHO_SHARD, Element.SHADOW, 400, SpellEffects::reveal);
+    ECHO("echo", "Echo", () -> Items.ECHO_SHARD, Element.SHADOW, 400, SpellEffects::reveal),
+    /**
+     * Compass — return to the lodestone the book is bound to, in the same dimension. The portal
+     * this mod does not have: the lodestone is the waypoint, an anvil names it, the staff's slots are
+     * the list. Held for 3 s and 60 s to recharge, and every Recall book shares that one cooldown.
+     */
+    RECALL("recall", "Recall", () -> Items.COMPASS, Element.SHADOW, 1200, 60,
+            SpellEffects::recall, SpellEffects::recallReady);
 
     /** No spell may be cast faster than this, however enchanted (0.25 s). */
     public static final int MIN_COOLDOWN_TICKS = 5;
@@ -68,10 +79,24 @@ public enum Spell implements StringRepresentable {
     public static final StreamCodec<ByteBuf, Spell> STREAM_CODEC =
             ByteBufCodecs.idMapper(i -> values()[i], Spell::ordinal);
 
-    /** The behaviour of a spell — invoked server-side with an already-computed power multiplier. */
+    /**
+     * The behaviour of a spell — invoked server-side with an already-computed power multiplier.
+     * {@code book} is the spellbook being cast, for spells that read something off it (Recall's
+     * lodestone). Returns whether the spell actually went off: a spell that fails (Recall with its
+     * lodestone gone) costs no cooldown and no durability.
+     */
     @FunctionalInterface
     public interface SpellAction {
-        void cast(ServerLevel level, Player caster, ItemStack staff, float power);
+        boolean cast(ServerLevel level, Player caster, ItemStack staff, ItemStackTemplate book, float power);
+    }
+
+    /**
+     * Whether a held spell is worth starting at all — checked on both sides before the hold begins,
+     * so the player learns straight away that a book is unbound instead of after holding for nothing.
+     */
+    @FunctionalInterface
+    public interface ReadyCheck {
+        boolean ready(Level level, Player caster, ItemStackTemplate book);
     }
 
     private final String id;
@@ -79,17 +104,28 @@ public enum Spell implements StringRepresentable {
     private final Supplier<Item> material;
     private final Element element;
     private final int cooldownTicks;
+    private final int useTicks;
     private final SpellAction action;
+    private final ReadyCheck readyCheck;
     private final Identifier cooldownGroup;
 
+    /** An instant spell: it goes off on the click. */
     Spell(String id, String displayName, Supplier<Item> material, Element element,
           int cooldownTicks, SpellAction action) {
+        this(id, displayName, material, element, cooldownTicks, 0, action, (level, caster, book) -> true);
+    }
+
+    /** A held spell: {@code useTicks} of holding use, then it goes off. Releasing early cancels. */
+    Spell(String id, String displayName, Supplier<Item> material, Element element,
+          int cooldownTicks, int useTicks, SpellAction action, ReadyCheck readyCheck) {
         this.id = id;
         this.displayName = displayName;
         this.material = material;
         this.element = element;
         this.cooldownTicks = cooldownTicks;
+        this.useTicks = useTicks;
         this.action = action;
+        this.readyCheck = readyCheck;
         this.cooldownGroup = Identifier.fromNamespaceAndPath(SyMagic.MOD_ID, "spell/" + id);
     }
 
@@ -120,6 +156,15 @@ public enum Spell implements StringRepresentable {
         return cooldownTicks;
     }
 
+    /** How long use must be held before the spell goes off; 0 for an instant spell. */
+    public int useTicks() {
+        return useTicks;
+    }
+
+    public boolean isHeld() {
+        return useTicks > 0;
+    }
+
     /**
      * The cooldown group this spell occupies, {@code symagic:spell/<id>}. Every spell has its own,
      * so the staff itself never goes on cooldown — see {@code SpellCooldowns} for why that matters.
@@ -138,8 +183,13 @@ public enum Spell implements StringRepresentable {
         return "spell.symagic." + id + ".desc";
     }
 
-    public void cast(ServerLevel level, Player caster, ItemStack staff, float power) {
-        action.cast(level, caster, staff, power);
+    /** Casts the spell; {@code false} if it did not go off, in which case nothing is charged. */
+    public boolean cast(ServerLevel level, Player caster, ItemStack staff, ItemStackTemplate book, float power) {
+        return action.cast(level, caster, staff, book, power);
+    }
+
+    public boolean ready(Level level, Player caster, ItemStackTemplate book) {
+        return readyCheck.ready(level, caster, book);
     }
 
     @Override

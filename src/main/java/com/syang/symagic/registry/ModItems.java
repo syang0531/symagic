@@ -1,6 +1,7 @@
 package com.syang.symagic.registry;
 
 import com.syang.symagic.SyMagic;
+import com.syang.symagic.world.item.RecallSpellbookItem;
 import com.syang.symagic.world.item.Spell;
 import com.syang.symagic.world.item.SpellbookItem;
 import com.syang.symagic.world.item.StaffItem;
@@ -38,8 +39,10 @@ public final class ModItems {
     static {
         for (Spell spell : Spell.values()) {
             // One per stack, like an enchanted book: it is a thing you own, not a consumable.
-            SPELLBOOKS.put(spell, ITEMS.registerItem(spell.bookId(),
-                    props -> new SpellbookItem(spell, props.stacksTo(1))));
+            // Recall is the one book with behaviour of its own: it binds to a lodestone.
+            SPELLBOOKS.put(spell, ITEMS.registerItem(spell.bookId(), props -> spell == Spell.RECALL
+                    ? new RecallSpellbookItem(props.stacksTo(1))
+                    : new SpellbookItem(spell, props.stacksTo(1))));
         }
     }
 

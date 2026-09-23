@@ -33,6 +33,7 @@ SPELLS = {
     'healing': (0xEDE7DA, 'holy'),      # ghast tear
     'gust': (0xC8E4EC, 'storm'),        # breeze rod
     'echo': (0x1F6D74, 'shadow'),       # echo shard
+    'recall': (0x8C9097, 'shadow'),     # compass
 }
 
 # Softer versions of the tooltip colours in Element.java.

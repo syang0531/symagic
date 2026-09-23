@@ -17,6 +17,7 @@
   "item.symagic.healing_spellbook": "치유 마법책",
   "item.symagic.gust_spellbook": "돌풍 마법책",
   "item.symagic.echo_spellbook": "반향 마법책",
+  "item.symagic.recall_spellbook": "귀환 마법책",
 
   "spell.symagic.ember": "불씨",
   "spell.symagic.frost": "서리",
@@ -28,6 +29,7 @@
   "spell.symagic.healing": "치유",
   "spell.symagic.gust": "돌풍",
   "spell.symagic.echo": "반향",
+  "spell.symagic.recall": "귀환",
 
   "spell.symagic.ember.desc": "작은 화염구를 던져 대상에 불을 붙인다",
   "spell.symagic.frost.desc": "빠른 화살을 쏘아 대상을 둔화시킨다",
@@ -39,9 +41,21 @@
   "spell.symagic.healing.desc": "체력 3칸 회복",
   "spell.symagic.gust.desc": "주변의 모든 것을 밀어내는 돌풍",
   "spell.symagic.echo.desc": "20초 동안 주변 생물이 벽 너머로 빛난다",
+  "spell.symagic.recall.desc": "이 책이 묶인 자석석으로 돌아간다",
 
   "tooltip.symagic.spellbook.cooldown": "재사용 대기시간: %s초",
   "tooltip.symagic.spellbook.hint": "지팡이에 끼워서 쓴다",
+  "tooltip.symagic.spellbook.hold": "%s초 동안 길게 눌러 시전",
+  "tooltip.symagic.recall.destination": "→ %s, %s, %s · %s",
+  "tooltip.symagic.recall.unbound": "묶이지 않음 — 들고 자석석을 우클릭",
+  "message.symagic.recall.bound": "이 자석석에 묶었다",
+  "message.symagic.recall.unbound": "자석석에 묶이지 않은 귀환 마법책이다",
+  "message.symagic.recall.other_dimension": "그 자석석은 다른 차원에 있다",
+  "message.symagic.recall.missing": "자석석이 없어졌다",
+  "message.symagic.recall.blocked": "자석석 위가 막혀 있다",
+  "symagic.dimension.overworld": "오버월드",
+  "symagic.dimension.the_nether": "네더",
+  "symagic.dimension.the_end": "엔드",
 
   "enchantment.symagic.spell_power": "마력",
   "enchantment.symagic.alacrity": "신속 시전",

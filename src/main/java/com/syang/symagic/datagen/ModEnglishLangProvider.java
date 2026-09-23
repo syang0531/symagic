@@ -31,6 +31,7 @@ public class ModEnglishLangProvider extends LanguageProvider {
         DESCRIPTIONS.put(Spell.HEALING, "Restores 3 hearts");
         DESCRIPTIONS.put(Spell.GUST, "A burst of wind that throws everything around you away");
         DESCRIPTIONS.put(Spell.ECHO, "Nearby creatures glow through walls for 20 seconds");
+        DESCRIPTIONS.put(Spell.RECALL, "Return to the lodestone this book is bound to");
     }
 
     public ModEnglishLangProvider(PackOutput output) {
@@ -54,6 +55,18 @@ public class ModEnglishLangProvider extends LanguageProvider {
         }
         add("tooltip.symagic.spellbook.cooldown", "Cooldown: %ss");
         add("tooltip.symagic.spellbook.hint", "Slot into a staff to cast");
+        add("tooltip.symagic.spellbook.hold", "Hold use for %ss to cast");
+
+        add("tooltip.symagic.recall.destination", "→ %s, %s, %s · %s");
+        add("tooltip.symagic.recall.unbound", "Not bound — use it on a lodestone");
+        add("message.symagic.recall.bound", "Bound to this lodestone");
+        add("message.symagic.recall.unbound", "This Recall spellbook is not bound to a lodestone");
+        add("message.symagic.recall.other_dimension", "That lodestone is in another dimension");
+        add("message.symagic.recall.missing", "The lodestone is gone");
+        add("message.symagic.recall.blocked", "Something is in the way on top of the lodestone");
+        add("symagic.dimension.overworld", "Overworld");
+        add("symagic.dimension.the_nether", "Nether");
+        add("symagic.dimension.the_end", "The End");
 
         add("enchantment.symagic.spell_power", "Spell Power");
         add("enchantment.symagic.alacrity", "Alacrity");
