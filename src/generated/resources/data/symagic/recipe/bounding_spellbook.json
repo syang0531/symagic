@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:slime_ball"
+  ],
+  "result": {
+    "id": "symagic:bounding_spellbook"
+  }
+}

@@ -1,7 +1,6 @@
 package com.syang.symagic.registry;
 
 import com.syang.symagic.SyMagic;
-import com.syang.symagic.world.item.ModStaff;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -10,7 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-/** One tab holding the staffs, in the roster's own order (attack first, then support, then movement). */
+/** One tab: the staff, then the spellbooks in the roster's own order (attack, support, movement). */
 public final class ModCreativeTabs {
 
     public static final DeferredRegister<CreativeModeTab> TABS =
@@ -19,8 +18,11 @@ public final class ModCreativeTabs {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN = TABS.register("main",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.symagic.main"))
-                    .icon(() -> new ItemStack(ModItems.STAFFS.get(ModStaff.LANTERN).get()))
-                    .displayItems((params, output) -> ModItems.STAFFS.values().forEach(i -> output.accept(i.get())))
+                    .icon(() -> new ItemStack(ModItems.STAFF.get()))
+                    .displayItems((params, output) -> {
+                        output.accept(ModItems.STAFF.get());
+                        ModItems.SPELLBOOKS.values().forEach(book -> output.accept(book.get()));
+                    })
                     .build());
 
     private ModCreativeTabs() {

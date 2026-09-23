@@ -18,7 +18,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
  * ({@code data/symagic/enchantment/*.json}) whose gameplay is applied here in code, because
  * "spell power" has no vanilla effect component to hang off.
  *
- * <p><b>They are obtained the vanilla way and only the vanilla way.</b> Each staff carries an
+ * <p><b>They are obtained the vanilla way and only the vanilla way.</b> The staff carries an
  * enchantability value and sits in {@code #symagic:enchantable/staff}, and the three enchantments
  * are added to {@code #minecraft:non_treasure} — the tag vanilla folds into
  * {@code in_enchanting_table}, {@code tradeable} and {@code on_random_loot}. So they turn up at an

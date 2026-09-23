@@ -83,7 +83,7 @@ CURSEFORGE_TOKEN=xxxx RELEASE_TYPE=beta ./gradlew publishCurseForge --no-configu
       업로드에 성공했다. 없으면 `build.gradle`의 `addGameVersion`이 실패한다
 - [x] `mod_version`과 태그가 일치하는가 — CI가 태그에서 뽑으므로 어긋날 수 없다
 - [x] GitHub Release에 첨부할 jar 이름이 맞는가 — `release.yml`이 `symagic-<버전>.jar`를 집는다 (다른 저장소에서 복사해 온 이름이라 한 번 틀렸었다)
-- [x] **모드를 제거했을 때 남는 것**을 CurseForge 설명에 적었는가 — 아이템 10개와 인챈트 3개가 전부이고 스택에 저장하는 데이터가 없어, 지팡이만 사라지고 끝이다
+- [x] **모드를 제거했을 때 남는 것**을 CurseForge 설명에 적었는가 — 지팡이 1 · 마법책 10 · 인챈트 3이 전부이고, 저장하는 건 지팡이에 끼운 책 목록뿐이라 지팡이와 책만 사라지고 끝이다. 0.1.0에서 올라올 때 옛 지팡이가 사라진다는 것도 적었다
 - [x] `logo.png`를 `src/main/resources/`에 넣고 `neoforge.mods.toml`에 `iconFile`을 적었는가 — 26.2에서 `logoFile`은 deprecated
 - [x] `CURSEFORGE_TOKEN` 시크릿이 등록돼 있는가 — 등록 완료 (2026-09-21, 저장소 소유자가 직접). 평문으로 노출된 적 있는 토큰은 재발급. **값이 비어 있으면** 실행 로그의 env에 `***` 대신 공백이 찍히고 CurseForge가 401을 낸다 (다른 저장소의 첫 업로드가 그렇게 두 번 실패했다)
 - [x] 파일에 환경 태그(Client/Server)가 붙는가 — `build.gradle`의 `addEnvironment`. 없으면 CurseForge가 error 1021로 거부한다

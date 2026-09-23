@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:ender_pearl"
+  ],
+  "result": {
+    "id": "symagic:blink_spellbook"
+  }
+}

@@ -10,10 +10,11 @@ import net.minecraft.data.PackOutput;
 
 /**
  * Generates the item models and the client item definitions
- * ({@code assets/symagic/items/*.json}, required since 1.21.4) for every staff.
+ * ({@code assets/symagic/items/*.json}, required since 1.21.4) for the staff and every spellbook.
  *
- * <p>Staffs are {@code item/handheld} so they are held like a tool. Their textures are produced by
- * {@code tools/gen_textures.ps1} at {@code assets/symagic/textures/item/&lt;id&gt;.png}.
+ * <p>The staff is {@code item/handheld} so it is held like a tool; spellbooks are plain
+ * {@code item/generated}, like a vanilla book. Textures come from {@code tools/gen_textures.py} at
+ * {@code assets/symagic/textures/item/&lt;id&gt;.png}.
  */
 public class ModModelProvider extends ModelProvider {
 
@@ -23,7 +24,8 @@ public class ModModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-        ModItems.STAFFS.values().forEach(i ->
-                itemModels.generateFlatItem(i.get(), ModelTemplates.FLAT_HANDHELD_ITEM));
+        itemModels.generateFlatItem(ModItems.STAFF.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        ModItems.SPELLBOOKS.values().forEach(book ->
+                itemModels.generateFlatItem(book.get(), ModelTemplates.FLAT_ITEM));
     }
 }

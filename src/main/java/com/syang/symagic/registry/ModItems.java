@@ -1,8 +1,11 @@
 package com.syang.symagic.registry;
 
 import com.syang.symagic.SyMagic;
-import com.syang.symagic.world.item.ModStaff;
+import com.syang.symagic.world.item.Spell;
+import com.syang.symagic.world.item.SpellbookItem;
 import com.syang.symagic.world.item.StaffItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -11,28 +14,40 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Every item in the mod: one staff per {@link ModStaff}. There is nothing else — no rune, no tome,
- * no catalyst. A staff is crafted from vanilla items, repaired with the same vanilla item, and
- * enchanted at a vanilla enchanting table.
+ * Every item in the mod: the one staff, and one spellbook per {@link Spell}. There is nothing else —
+ * no rune, no catalyst, no tiered staff. The staff is crafted from vanilla items, repaired with gold
+ * and enchanted at a vanilla enchanting table; a spellbook is a book plus one vanilla material.
  */
 public final class ModItems {
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SyMagic.MOD_ID);
 
-    public static final Map<ModStaff, DeferredItem<StaffItem>> STAFFS = new EnumMap<>(ModStaff.class);
+    public static final DeferredItem<StaffItem> STAFF = ITEMS.registerItem("staff", props -> new StaffItem(props
+            .durability(StaffItem.DURABILITY)
+            // Repaired at an anvil with the ingot it was made from, like any golden tool.
+            .repairable(Items.GOLD_INGOT)
+            // Non-zero enchantability is what puts the staff on an enchanting table at all.
+            .enchantable(StaffItem.ENCHANTABILITY)
+            // No grid repair and no grindstone combining: both build the result from scratch or from
+            // one input only, so the spellbooks in the other staff (or in both) would silently vanish.
+            // Repair is gold at an anvil, or Mending. See StaffEvents for the anvil-combine case.
+            .setNoCombineRepair()));
+
+    public static final Map<Spell, DeferredItem<SpellbookItem>> SPELLBOOKS = new EnumMap<>(Spell.class);
 
     static {
-        for (ModStaff staff : ModStaff.values()) {
-            STAFFS.put(staff, ITEMS.registerItem(staff.id(), props -> new StaffItem(staff, props
-                    .durability(staff.durability())
-                    // Repaired at an anvil with the material it was made from.
-                    .repairable(staff.material())
-                    // Non-zero enchantability is what puts the staff on an enchanting table at all.
-                    .enchantable(staff.enchantmentValue()))));
+        for (Spell spell : Spell.values()) {
+            // One per stack, like an enchanted book: it is a thing you own, not a consumable.
+            SPELLBOOKS.put(spell, ITEMS.registerItem(spell.bookId(),
+                    props -> new SpellbookItem(spell, props.stacksTo(1))));
         }
     }
 
     private ModItems() {
+    }
+
+    public static Item spellbook(Spell spell) {
+        return SPELLBOOKS.get(spell).get();
     }
 
     public static void register(IEventBus modBus) {

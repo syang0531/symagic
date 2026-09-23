@@ -3,9 +3,9 @@ package com.syang.symagic.world.item;
 import net.minecraft.ChatFormatting;
 
 /**
- * The six elements. With one spell per staff an element is pure flavour — it colours the tooltip
- * and groups the staffs in the creative tab — but it keeps the roster legible: you can tell at a
- * glance that the blaze-rod staff and the ghast-tear staff do very different things.
+ * The six elements. For now an element is pure flavour — it colours the tooltip and the action-bar
+ * line when you switch — but it keeps the roster legible: you can tell at a glance that the
+ * blaze-rod spellbook and the ghast-tear spellbook do very different things.
  */
 public enum Element {
     FIRE("Fire", "🔥", ChatFormatting.RED),

@@ -3,7 +3,6 @@ package com.syang.symagic.datagen;
 import com.syang.symagic.SyMagic;
 import com.syang.symagic.registry.ModEnchantments;
 import com.syang.symagic.registry.ModItems;
-import com.syang.symagic.world.item.ModStaff;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -16,7 +15,8 @@ import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Puts every staff in the tags that decide what may be enchanted onto it.
+ * Puts the staff in the tags that decide what may be enchanted onto it. Spellbooks get none:
+ * they are not enchantable, which keeps them clear of the enchanting table's business.
  *
  * <p>Without these a modded item belongs to no {@code minecraft:enchantable/*} tag and is therefore
  * enchantable with <i>nothing</i> in survival (see {@code Enchantment#isSupportedItem}); NeoForge
@@ -39,12 +39,10 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        for (ModStaff staff : ModStaff.values()) {
-            Item item = ModItems.STAFFS.get(staff).get();
-            add(ItemTags.DURABILITY_ENCHANTABLE, item);
-            add(ItemTags.VANISHING_ENCHANTABLE, item);
-            add(ModEnchantments.STAFF_ENCHANTABLE, item);
-        }
+        Item staff = ModItems.STAFF.get();
+        add(ItemTags.DURABILITY_ENCHANTABLE, staff);
+        add(ItemTags.VANISHING_ENCHANTABLE, staff);
+        add(ModEnchantments.STAFF_ENCHANTABLE, staff);
     }
 
     private void add(TagKey<Item> tag, Item item) {

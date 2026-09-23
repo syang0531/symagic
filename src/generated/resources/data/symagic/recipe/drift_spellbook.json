@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:phantom_membrane"
+  ],
+  "result": {
+    "id": "symagic:drift_spellbook"
+  }
+}

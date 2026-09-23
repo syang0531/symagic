@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:echo_shard"
+  ],
+  "result": {
+    "id": "symagic:echo_spellbook"
+  }
+}

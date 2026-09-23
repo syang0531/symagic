@@ -17,11 +17,12 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Server-side cast behaviours, one per {@link com.syang.symagic.world.item.ModStaff}.
+ * Server-side cast behaviours, one per {@link com.syang.symagic.world.item.Spell}.
  *
- * <p>Each method matches {@code ModStaff.SpellAction} — {@code (ServerLevel, Player, ItemStack
- * staff, float power)} — and is referenced by method handle from the staff table, so the roster
- * stays a single readable list.
+ * <p>Each method matches {@code Spell.SpellAction} — {@code (ServerLevel, Player, ItemStack
+ * staff, float power)} — and is referenced by method handle from the spell table, so the roster
+ * stays a single readable list. {@code staff} is the staff doing the casting; its enchantments
+ * are what the spell reads.
  *
  * <p><b>Balance.</b> {@code power} is the Spell Power multiplier; it scales damage, healing and
  * buff duration. Only {@link #firebolt} and {@link #frostArrow} deal damage at all, and both are
@@ -38,7 +39,7 @@ public final class SpellEffects {
 
     /**
      * Firebolt — the vanilla small fireball: about 5 fire damage, and it sets the target alight.
-     * Its damage is fixed by vanilla and does not scale, which keeps the cheapest attack staff an
+     * Its damage is fixed by vanilla and does not scale, which keeps the cheapest attack spell an
      * early-game tool rather than a late-game answer.
      */
     public static void firebolt(ServerLevel level, Player caster, ItemStack staff, float power) {
@@ -123,7 +124,7 @@ public final class SpellEffects {
 
     /**
      * Gust — a ring of wind that throws every other creature within 5x reach blocks away from you
-     * and lifts you a little. It deals no damage: this staff buys you distance, not a kill.
+     * and lifts you a little. It deals no damage: this spell buys you distance, not a kill.
      */
     public static void gust(ServerLevel level, Player caster, ItemStack staff, float power) {
         double radius = 5.0 * ModEnchantments.reach(level, staff);
